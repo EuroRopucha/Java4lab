@@ -12,7 +12,9 @@ public class Program implements Iterable<Command>{
 
     public boolean hasNext() { return pc >= 0 && pc < commands.size(); }
 
-    public Command current() { return hasNext() ? commands.get(pc) : null; }
+    public Command current() {
+        if(hasNext()) return commands.get(pc);
+        return null; }
 
     public void reset() { pc = 0; event(); }
 
@@ -80,7 +82,6 @@ public class Program implements Iterable<Command>{
             event();
         }
     }
-
     public void moveDown(Command c) {
         int index = commands.indexOf(c);
         if (index >= 0 && index < commands.size() - 1) {
@@ -88,6 +89,5 @@ public class Program implements Iterable<Command>{
             event();
         }
     }
-
 }
 

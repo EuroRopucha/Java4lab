@@ -6,14 +6,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import java.util.*;
 
 import java.io.IOException;
 
 public class MainFrameController implements IObserver {
     Program program = BProgram.build();
-    Cpu cpu = new Cpu();
-
+    ICpu cpu = BCpu.build();
 
     @FXML
     GridPane allCommands;
@@ -29,9 +28,7 @@ public class MainFrameController implements IObserver {
     @FXML
     void initialize() {
         program.addListener(this);
-        updateRegisters();
-        updateMemory();
-        updateStats();
+        refreshUI();
     }
 
     @FXML
@@ -42,7 +39,6 @@ public class MainFrameController implements IObserver {
         } catch (CpuException e) {
             System.out.println("Ошибка: " + e.getMessage());
         }
-
     }
 
     @Override
@@ -61,20 +57,16 @@ public class MainFrameController implements IObserver {
                 cc.setCommand(c);
 
                 if (idx == pc) {
-                    pane.setStyle("-fx-background-color: #ffe5e5;"); // мягкий красный фон
-                    // или cc.setHighlighted(true); и внутри контроллера применить стиль к Label
+                    pane.setStyle("-fx-background-color: #ffe5e5;"); // красный фон
                 }
-
                 allCommands.addColumn(0, pane);
                 idx++;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-
         refreshUI();
     }
-
 
     void updateRegisters() {
         registersGrid.getChildren().clear();
@@ -126,12 +118,15 @@ public class MainFrameController implements IObserver {
     @FXML
     void resetExecution() {
         program.reset();
-        // при желании очистить CPU:
-        // Arrays.fill(cpu.getMemory(), 0);
-        // cpu.setRegister("a", 0); ... для b, c, d
+        Arrays.fill(cpu.getMemory(), 0);
+        try {
+            cpu.setRegister("a", 0);
+            cpu.setRegister("b", 0);
+            cpu.setRegister("c", 0);
+            cpu.setRegister("d", 0);
+        } catch (CpuException e) {
+            System.out.println("Ошибка при сбросе регистров: " + e.getMessage());
+        }
         refreshUI();
     }
-
-
-
 }

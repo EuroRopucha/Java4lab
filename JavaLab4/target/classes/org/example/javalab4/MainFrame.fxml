@@ -44,8 +44,8 @@
    <top>
       <Pane prefHeight="67.0" prefWidth="558.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="13.0" layoutY="18.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="208.0" text="Сбросить выполнение программы" />
-            <Button layoutX="230.0" layoutY="18.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="213.0" text="Выполнить очередную инструкцию" />
+            <Button layoutX="13.0" layoutY="18.0" mnemonicParsing="false" onAction="#resetExecution" prefHeight="35.0" prefWidth="208.0" text="Сбросить выполнение программы" />
+            <Button layoutX="230.0" layoutY="18.0" mnemonicParsing="false" onAction="#nextStep" prefHeight="35.0" prefWidth="213.0" text="Выполнить очередную инструкцию" />
          </children>
       </Pane>
    </top>

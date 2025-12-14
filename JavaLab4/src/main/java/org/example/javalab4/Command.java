@@ -26,7 +26,13 @@ public class Command {
         if (parts.length < 1 || parts.length > 3)
             throw new CpuException("Неверный формат команды: " + name);
 
-        command = typeCommand.valueOf(parts[0]);
+        typeCommand command;
+        try {
+            command = typeCommand.valueOf(parts[0].toLowerCase());
+        } catch (IllegalArgumentException e) {
+            throw new CpuException("Неизвестная команда: " + parts[0]);
+        }
+        this.command = command;
 
         if (parts.length >= 2) arg1 = parts[1];
         if (parts.length == 3) arg2 = parts[2];
